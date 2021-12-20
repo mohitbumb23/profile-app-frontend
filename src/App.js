@@ -1,5 +1,8 @@
+import Routes from "./routes";
+import "antd/dist/antd.css";
+
 const App = () => {
-  return <div>Profile Builder App</div>;
+  return <Routes />;
 };
 
 export default App;
