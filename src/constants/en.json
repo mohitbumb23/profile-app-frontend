@@ -1,0 +1,8 @@
+{
+  "routes": {
+    "usersUrl": "/users",
+    "updateUrl": "/edit-profile/:id",
+    "profileUrl": "/view-profile/:id",
+    "homeUrl": "/"
+  }
+}
