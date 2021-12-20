@@ -1,8 +1,8 @@
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
-import constant from "../../constants/en.json";
+import staticText from "../../constants/en.json";
 
-const { homeUrl, usersUrl } = constant.routes;
+const { homeUrl, usersUrl } = staticText.routes;
 const { Header } = Layout;
 
 const HeaderLayout = ({ action }) => {
@@ -10,10 +10,10 @@ const HeaderLayout = ({ action }) => {
     <Header>
       <Menu theme='dark' mode='horizontal' defaultSelectedKeys={[action]}>
         <Menu.Item key='home'>
-          <Link to={homeUrl}>Home</Link>
+          <Link to={homeUrl}>{staticText.home}</Link>
         </Menu.Item>
         <Menu.Item key='users'>
-          <Link to={usersUrl}>Users</Link>
+          <Link to={usersUrl}>{staticText.users}</Link>
         </Menu.Item>
       </Menu>
     </Header>

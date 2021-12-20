@@ -36,7 +36,6 @@ const TextAreaField = ({
       value={values[`${name}`]}
       onChange={handleChange}
       validate={(v) => (!v ? validationString : undefined)}
-      maxLength={300}
     />
   );
 };

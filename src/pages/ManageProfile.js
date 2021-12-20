@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Form, SubmitButton } from "formik-antd";
 import { Formik } from "formik";
 import { Button, Row, Col } from "antd";
@@ -22,16 +22,50 @@ import {
   CheckBoxField,
   SelectField,
 } from "../components/FormFields";
-import constants from "../constants/en.json";
+import staticText from "../constants/en.json";
 import { formValidation } from "../components/FormFields/validations";
 import Header from "../components/Header";
 
-const { usersUrl } = constants.routes;
+const { usersUrl } = staticText.routes;
 
 const ManageProfile = () => {
   let [profile, setProfile] = useState(initialValues);
   let [action, setAction] = useState("Submit");
+
+  const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
+  const pathname = location.pathname || "";
+
+  useEffect(() => {
+    if (pathname.indexOf("/edit-profile") !== -1) {
+      const key = params.id;
+      const profiles = getItems("profile");
+      const getProfile = profiles?.find(
+        (profile) => String(profile.key) === String(key)
+      );
+      getProfile ? setProfile(getProfile) : setProfile(initialValues);
+      if (getProfile) {
+        setProfile(getProfile);
+        setAction("Update");
+      } else {
+        setProfile(initialValues);
+      }
+    } else {
+      setProfile(initialValues);
+    }
+  }, [pathname, params]);
+
+  const handleEdit = (value) => {
+    let totalProfiles = getItems("profile");
+    if (totalProfiles && totalProfiles.length) {
+      totalProfiles = totalProfiles.map((profile) =>
+        profile.key === value.key ? value : profile
+      );
+      setItems("profile", totalProfiles);
+    }
+    navigate(usersUrl);
+  };
 
   const handleSubmit = (data) => {
     const userDetails = {
@@ -66,13 +100,18 @@ const ManageProfile = () => {
       <Header action='home' />
       <Row style={{ marginTop: "15px" }}>
         <Col span={12} offset={6}>
+          <h1>
+            {pathname.indexOf("/edit-profile") !== -1
+              ? staticText.update_profile
+              : staticText.create_profile}
+          </h1>
           <Formik
             enableReinitialize={true}
             initialValues={profile}
             validate={(values) => formValidation(values)}
             onSubmit={(values, { resetForm }) => {
               values = handleDate(values);
-              handleSubmit(values);
+              action === "Submit" ? handleSubmit(values) : handleEdit(values);
               resetForm();
             }}>
             {({ values, handleChange, handleSubmit, setFieldValue }) => (

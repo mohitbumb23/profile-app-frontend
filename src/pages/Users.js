@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { columns } from "../constants/common";
 import { getItems } from "../mockStorage";
 import Header from "../components/Header";
+import staticText from "../constants/en.json";
 
 const Users = () => {
   const [usersList, setUsersList] = useState([]);
@@ -54,9 +55,19 @@ const Users = () => {
     <>
       <Header action='users' />
       <Row style={{ marginTop: "15px" }}>
-        <Col span={12} offset={4}>
-          <Table columns={columns} dataSource={dataSource} pagination={false} />
-        </Col>
+        {usersList?.length ? (
+          <Col span={14} offset={4}>
+            <Table
+              columns={columns}
+              dataSource={dataSource}
+              pagination={false}
+            />
+          </Col>
+        ) : (
+          <Col span={16} offset={8}>
+            <h1>{staticText.no_data_found}</h1>
+          </Col>
+        )}
       </Row>
     </>
   );
