@@ -24,6 +24,7 @@ import {
 } from "../components/FormFields";
 import constants from "../constants/en.json";
 import { formValidation } from "../components/FormFields/validations";
+import Header from "../components/Header";
 
 const { usersUrl } = constants.routes;
 
@@ -62,6 +63,7 @@ const ManageProfile = () => {
 
   return (
     <>
+      <Header action='home' />
       <Row style={{ marginTop: "15px" }}>
         <Col span={12} offset={6}>
           <Formik
