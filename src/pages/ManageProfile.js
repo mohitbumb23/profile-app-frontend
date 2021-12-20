@@ -13,7 +13,7 @@ import {
   datePickerField,
   textAreaField,
   checkBoxField,
-  selectBoxField,
+  selectBoxField
 } from "../constants/common";
 import {
   InputField,
@@ -38,9 +38,9 @@ const ManageProfile = () => {
   const pathname = location.pathname || "";
 
   useEffect(() => {
-    if (pathname.indexOf("/edit-profile") !== -1) {
+    if (pathname.indexOf(staticText.edit_url) !== -1) {
       const key = params.id;
-      const profiles = getItems("profile");
+      const profiles = getItems(staticText.database);
       const getProfile = profiles?.find(
         (profile) => String(profile.key) === String(key)
       );
@@ -55,12 +55,12 @@ const ManageProfile = () => {
   }, [pathname, params]);
 
   const handleEdit = (value) => {
-    let usersList = getItems("profile");
+    let usersList = getItems(staticText.database);
     if (usersList?.length) {
       usersList = usersList.map((profile) =>
         profile.key === value.key ? value : profile
       );
-      setItems("profile", usersList);
+      setItems(staticText.database, usersList);
     }
     navigate(usersUrl);
   };
@@ -70,32 +70,32 @@ const ManageProfile = () => {
       ...data,
       key: Date.now(),
     };
-    const profiles = getItems("profile");
+    const profiles = getItems(staticText.database);
     if (profiles?.length) {
       profiles.push(userDetails);
-      setItems("profile", profiles);
+      setItems(staticText.database, profiles);
     } else {
-      setItems("profile", [userDetails]);
+      setItems(staticText.database, [userDetails]);
     }
     navigate(usersUrl);
   };
 
   const handleDate = (values) => {
     const startDate = values?.startDate
-      ? moment(values?.startDate).format("MMM YYYY")
+      ? moment(values?.startDate).format(staticText.date_format)
       : "";
     const endDate = values?.endDate
-      ? moment(values?.endDate).format("MMM YYYY")
+      ? moment(values?.endDate).format(staticText.date_format)
       : "";
     values.startEndMonths = `${startDate} - ${
-      values?.currentJob ? "Present" : endDate
+      values?.currentJob ? staticText?.current_job : endDate
     }`;
     return values;
   };
 
   return (
     <>
-      <Header action='home' />
+      <Header action="home" />
       <Row style={{ marginTop: "15px" }}>
         <Col span={12} offset={6}>
           <h1>
@@ -109,7 +109,8 @@ const ManageProfile = () => {
               values = handleDate(values);
               isEdit ? handleEdit(values) : handleSubmit(values);
               resetForm();
-            }}>
+            }}
+          >
             {({ values, handleChange, handleSubmit, setFieldValue }) => (
               <Form onSubmit={handleSubmit}>
                 {formInputs.map((input, i) => {
@@ -171,7 +172,7 @@ const ManageProfile = () => {
                   );
                 })}
                 <Button.Group>
-                  <SubmitButton type='submit'>
+                  <SubmitButton type="submit">
                     {isEdit ? "Update" : "Create"}
                   </SubmitButton>
                 </Button.Group>

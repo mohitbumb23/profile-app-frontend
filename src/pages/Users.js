@@ -13,7 +13,7 @@ const Users = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const usersProfile = getItems("profile");
+    const usersProfile = getItems(staticText.database);
     if (usersProfile?.length) {
       setUsersList(usersProfile);
     }

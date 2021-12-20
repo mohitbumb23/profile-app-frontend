@@ -20,6 +20,11 @@
   "skills_is_required": "skills is required",
   "description_is_required": "Description is required",
   "maximum_300_words_only": "Maximum 300 words only",
+  "date_format": "MMM YYYY",
+  "edit_url": "/edit-profile",
+  "view_url": "/view-profile",
+  "current_job": "Present",
+  "database": "profile",
   "routes": {
     "usersUrl": "/users",
     "updateUrl": "/edit-profile/:id",

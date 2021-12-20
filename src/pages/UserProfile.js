@@ -14,9 +14,9 @@ const Profile = () => {
   const pathname = location.pathname || "";
 
   useEffect(() => {
-    if (pathname.indexOf("/view-profile") !== -1) {
+    if (pathname.indexOf(staticText.view_url) !== -1) {
       const key = params.id;
-      const profiles = getItems("profile");
+      const profiles = getItems(staticText.database);
       const getProfile = profiles?.find(
         (profile) => String(profile.key) === String(key)
       );
@@ -26,7 +26,7 @@ const Profile = () => {
 
   return (
     <>
-      <Header action='profile' />
+      <Header action="profile" />
       <Row style={{ marginTop: "30px" }}>
         <Col span={16} offset={8}>
           <table>
