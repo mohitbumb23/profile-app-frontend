@@ -30,7 +30,7 @@ const { usersUrl } = staticText.routes;
 
 const ManageProfile = () => {
   let [profile, setProfile] = useState(initialValues);
-  let [action, setAction] = useState("Submit");
+  let [isEdit, setIsEdit] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,25 +44,23 @@ const ManageProfile = () => {
       const getProfile = profiles?.find(
         (profile) => String(profile.key) === String(key)
       );
-      getProfile ? setProfile(getProfile) : setProfile(initialValues);
       if (getProfile) {
         setProfile(getProfile);
-        setAction("Update");
-      } else {
-        setProfile(initialValues);
+        setIsEdit(true);
       }
     } else {
       setProfile(initialValues);
+      setIsEdit(false);
     }
   }, [pathname, params]);
 
   const handleEdit = (value) => {
-    let totalProfiles = getItems("profile");
-    if (totalProfiles && totalProfiles.length) {
-      totalProfiles = totalProfiles.map((profile) =>
+    let usersList = getItems("profile");
+    if (usersList?.length) {
+      usersList = usersList.map((profile) =>
         profile.key === value.key ? value : profile
       );
-      setItems("profile", totalProfiles);
+      setItems("profile", usersList);
     }
     navigate(usersUrl);
   };
@@ -101,9 +99,7 @@ const ManageProfile = () => {
       <Row style={{ marginTop: "15px" }}>
         <Col span={12} offset={6}>
           <h1>
-            {pathname.indexOf("/edit-profile") !== -1
-              ? staticText.update_profile
-              : staticText.create_profile}
+            {isEdit ? staticText.update_profile : staticText.create_profile}
           </h1>
           <Formik
             enableReinitialize={true}
@@ -111,7 +107,7 @@ const ManageProfile = () => {
             validate={(values) => formValidation(values)}
             onSubmit={(values, { resetForm }) => {
               values = handleDate(values);
-              action === "Submit" ? handleSubmit(values) : handleEdit(values);
+              isEdit ? handleEdit(values) : handleSubmit(values);
               resetForm();
             }}>
             {({ values, handleChange, handleSubmit, setFieldValue }) => (
@@ -175,7 +171,9 @@ const ManageProfile = () => {
                   );
                 })}
                 <Button.Group>
-                  <SubmitButton type='submit'>{action}</SubmitButton>
+                  <SubmitButton type='submit'>
+                    {isEdit ? "Update" : "Create"}
+                  </SubmitButton>
                 </Button.Group>
               </Form>
             )}

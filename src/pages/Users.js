@@ -41,7 +41,7 @@ const Users = () => {
           </Button>
           <Button
             span={1}
-            type='danger'
+            type='primary'
             onClick={() => navigate(`/view-profile/${key}`)}>
             <EyeOutlined />
           </Button>
